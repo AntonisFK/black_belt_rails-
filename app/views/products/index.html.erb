@@ -1,0 +1,36 @@
+<h3>Products</h3>
+
+<table>
+	<tr>
+		<td><b>Product</b></td>
+		<td><b>Date Posted</b></td>
+		<td><b>Price($)</b></td>
+		<td>Name </td>		
+		<td><b>Action</b></td>
+	</tr>
+	<%@products.each do |x| %>	
+	
+	<tr>
+
+		<td>  <%=x.name%></td>
+		<td> <%=x.created_at.strftime("%b %d, %Y")%> </td>
+		<td> <%=x.price%> </td>
+		<td> <%= x.user.first_name%> </td>
+		<td> <% if x.user != current_user and x.buyer_id == nil %> 
+			<form action = "/products/<%=x.id%>" method='post'>
+			 	<input type="hidden"name="_method"value="patch">
+				<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token%>">
+				<input type="hidden" name= 'secret_id' value = "<%=x.id%>">
+				<input type="submit" value= "Buy">
+			</form>
+	 </td>
+		<%end%> 
+	
+
+
+		</td>
+	</tr> 
+
+	<%end%>
+	
+	

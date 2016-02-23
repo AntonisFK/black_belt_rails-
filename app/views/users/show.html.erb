@@ -1,0 +1,86 @@
+<h2>Add a product</h2>
+
+<form action="/products" method= 'post'>
+	<input name="authenticity_token" type="hidden" value="<%= form_authenticity_token%>">
+	<input type="text" name='product[name]' placeholder="name">
+	<input type="text" name= 'product[price]' placeholder="price">	
+	<input type="submit">	
+
+</form>
+<h3> products yet sold </h3>
+<table>
+	<tr>
+		<td><b>Product</b></td>
+		<td><b>Date Posted</b></td>
+		<td><b>Price($)</b></td>
+		<td></td>		
+		<td><b>Action</b></td>
+	</tr>
+
+	<%@products.each do |product| %>	
+		<%if product.buyer_id == nil %>
+	<tr>
+
+		<td> <%= product.name %> </td>
+		<td> <%= product.created_at.strftime("%b %d, %Y")%> </td>
+		<td> <%= product.price %> </td>
+		<td> </td>
+		<td> <a href="/products/<%= product.id%>" data-method='delete' >Remove</a></td>
+
+	</tr> 
+		<%end%>
+	<%end%>
+
+	</table>
+
+
+	<h3>Products sold</h3>
+	<table>
+	<tr>
+		<td><b>Product</b></td>
+		<td><b>Date Posted</b></td>
+		<td><b>Price($)</b></td>
+	</tr>
+
+	<% @sold.each do |sold| %>	
+		<%if sold.buyer_id != nil %> 
+		
+	<tr>
+
+		<td> <%= sold.name %> </td>
+		<td> <%= sold.created_at.strftime("%b %d, %Y")%> </td>
+		<td> <%= sold.price %> </td>
+		<td> </td>
+
+	</tr> 
+		<%end%>
+	<%end%>
+	
+	</table>
+
+<h3>Products bought</h3>
+	<table>
+	<tr>
+		<td><b>Product</b></td>
+		<td><b>Date Posted</b></td>
+		<td><b>Price($)</b></td>
+	</tr>
+
+	<% @bought.each do |bought| %>	
+		
+	<tr>
+
+		<td> <%= bought.name %> </td>
+		<td> <%= bought.created_at.strftime("%b %d, %Y")%> </td>
+		<td> <%= bought.price %> </td>
+		<td> </td>
+
+	</tr> 
+		
+	<%end%>
+	
+	</table>
+
+
+
+<p>See what is for sale <a href="/products">Click here </a></p>
